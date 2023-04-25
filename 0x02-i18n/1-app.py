@@ -10,7 +10,7 @@ class Config:
     """create a Config class that has a LANGUAGES
        class attribute equal to ["en", "fr"].
     """
-    LANGUAGES = ["en", "fr" ]
+    LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
@@ -20,10 +20,12 @@ app.config.from_object(Config)
 app.url_map.strict_slashes = False
 babel = Babel(app)
 
-@app.route('/')
-def hello(name=None) -> str:
 
-    return render_template('1-index.html', name=name)
+@app.route('/')
+def hello() -> str:
+    """The home/index page.
+    """
+    return render_template('1-index.html')
 
 
 if __name__ == '__main__':

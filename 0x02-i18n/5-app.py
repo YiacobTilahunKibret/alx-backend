@@ -8,7 +8,9 @@ from typing import Union, Dict
 
 
 class Config:
-    LANGUAGES = ["en", "fr" ]
+    """Represents a Flask Babel configuration.
+    """
+    LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
@@ -25,7 +27,9 @@ users = {
 }
 
 
-def get_user () -> Union[Dict, None]:
+def get_user() -> Union[Dict, None]:
+    """Retrieves a user based on a user id.
+    """
     login_id = request.args.get('login_as')
     if login_id:
         return users.get(int(login_id))
@@ -42,16 +46,19 @@ def before_request() -> None:
 
 @babel.localeselector
 def get_locale() -> str:
+    """Retrieves the locale for a web page.
+    """
     locale = request.args.get('locale', '')
     if locale in app.config["LANGUAGES"]:
         return locale
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return request.accept_languages.best_match(app.config["LANGUAGES"])
+
 
 @app.route('/')
 def get_index() -> str:
+    """The home/index page.
+    """
     return render_template('5-index.html')
-
-
 
 
 if __name__ == '__main__':

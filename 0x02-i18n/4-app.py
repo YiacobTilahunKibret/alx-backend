@@ -7,7 +7,9 @@ from flask import render_template, request
 
 
 class Config:
-    LANGUAGES = ["en", "fr" ]
+    """Represents a Flask Babel configuration.
+    """
+    LANGUAGES = ["en", "fr"]
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_DEFAULT_TIMEZONE = "UTC"
 
@@ -17,10 +19,10 @@ app.config.from_object(Config)
 app.url_map.strict_slashes = False
 babel = Babel(app)
 
+
 @babel.localeselector
 def get_locale() -> str:
-    """you will implement a way to force a particular
-       locale by passing the locale=fr parameter to your app’s URLs.
+    """Retrieves the locale for a web page.
     """
     queries = request.query_string.decode('utf-8').split('&')
     query_table = dict(map(
@@ -30,13 +32,14 @@ def get_locale() -> str:
     if 'locale' in query_table:
         if query_table['locale'] in app.config["LANGUAGES"]:
             return query_table['locale']
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    return request.accept_languages.best_match(app.config["LANGUAGES"])
+
 
 @app.route('/')
 def get_index() -> str:
+    """The home/index page.
+    """
     return render_template('4-index.html')
-
-
 
 
 if __name__ == '__main__':
